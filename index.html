@@ -290,12 +290,12 @@ Sacramento, CA 95811"></textarea>
 <div class="fgrid">
 <div class="fd ffull"><label>Products <span class="rq">*</span></label>
 <div class="cg">
-<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Cameras</label>
-<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Sensors</label>
-<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Access control</label>
-<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Alarm monitoring</label>
-<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Intercoms</label>
-<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Networking</label>
+<label class="cp" onclick="togChk(event,this)"><input type="checkbox"><i class="ti ti-check ck"></i> Cameras</label>
+<label class="cp" onclick="togChk(event,this)"><input type="checkbox"><i class="ti ti-check ck"></i> Sensors</label>
+<label class="cp" onclick="togChk(event,this)"><input type="checkbox"><i class="ti ti-check ck"></i> Access control</label>
+<label class="cp" onclick="togChk(event,this)"><input type="checkbox"><i class="ti ti-check ck"></i> Alarm monitoring</label>
+<label class="cp" onclick="togChk(event,this)"><input type="checkbox"><i class="ti ti-check ck"></i> Intercoms</label>
+<label class="cp" onclick="togChk(event,this)"><input type="checkbox"><i class="ti ti-check ck"></i> Networking</label>
 </div></div>
 <div class="fd"><label>Estimated devices <span class="rq">*</span></label><input type="number" placeholder="25" min="1"></div>
 <div class="fd"><label>Timeline <span class="rq">*</span></label><select><option value="" disabled selected>When?</option><option>Immediately</option><option>1 – 3 months</option><option>3 – 6 months</option><option>6 – 12 months</option><option>12+ months</option></select></div>
@@ -423,7 +423,8 @@ document.getElementById('gov-fields').classList.toggle('vis',el.querySelector('i
 }
 }
 
-function togChk(el){
+function togChk(e,el){
+e.preventDefault();
 el.classList.toggle('sel');
 var cb=el.querySelector('input');
 cb.checked=!cb.checked;
