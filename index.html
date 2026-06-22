@@ -124,6 +124,26 @@ body{background:#1a1a1a;color:#e8e8e8}
 .cond{display:none}
 .cond.vis{display:grid;grid-template-columns:1fr 1fr;gap:16px;animation:fi .25s ease}
 
+.fd .err-msg{display:none;font-size:12px;color:var(--red-tx);margin-top:2px}
+.fd.has-error input,.fd.has-error select,.fd.has-error textarea{border-color:var(--red-tx);box-shadow:0 0 0 3px rgba(163,45,45,.1)}
+.fd.has-error .err-msg{display:block}
+.fd.valid input,.fd.valid select{border-color:var(--green)}
+
+.draft-banner{display:none;background:var(--amber-bg);color:var(--amber-tx);border-radius:var(--radius);padding:10px 16px;margin-bottom:1rem;font-size:13px;align-items:center;justify-content:space-between;gap:8px}
+.draft-banner.show{display:flex}
+.draft-banner button{background:none;border:none;cursor:pointer;font-size:13px;font-weight:500;padding:4px 10px;border-radius:var(--radius)}
+.draft-banner .db-restore{color:var(--blue);text-decoration:underline}
+.draft-banner .db-dismiss{color:var(--amber-tx);opacity:.7}
+.draft-banner i{font-size:16px;flex-shrink:0}
+
+.addr-dropdown{position:absolute;left:0;right:0;top:100%;background:var(--bg);border:0.5px solid var(--border);border-radius:0 0 var(--radius) var(--radius);max-height:200px;overflow-y:auto;z-index:10;display:none;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.addr-dropdown.show{display:block}
+.addr-item{padding:8px 12px;font-size:13px;color:var(--tx1);cursor:pointer;display:flex;align-items:center;gap:8px}
+.addr-item:hover{background:var(--bg2)}
+.addr-item i{color:var(--tx3);font-size:15px}
+.addr-sub{font-size:11px;color:var(--tx3)}
+.fd.addr-wrap{position:relative}
+
 .secl{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--tx3);font-weight:600;margin-bottom:12px;margin-top:8px}
 
 .br{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:0.5px solid var(--border)}
@@ -241,9 +261,17 @@ Sacramento, CA 95811"></textarea>
 
 <!-- VIEW 3: Step form -->
 <div class="view" id="v-form">
+<div class="draft-banner" id="draft-banner">
+<i class="ti ti-device-floppy"></i>
+<span>You have a saved draft from a previous session.</span>
+<span style="display:flex;gap:4px">
+<button class="db-restore" onclick="restoreDraft()">Resume</button>
+<button class="db-dismiss" onclick="clearDraft()">Dismiss</button>
+</span>
+</div>
 <div class="ph">
 <h1>Register a new opportunity</h1>
-<p>Fields marked <span style="color:var(--red-tx)">*</span> are required.</p>
+<p>Fields marked <span style="color:var(--red-tx)">*</span> are required. Progress saves automatically.</p>
 </div>
 
 <div class="stepper">
@@ -256,9 +284,9 @@ Sacramento, CA 95811"></textarea>
 <div class="fs active" data-step="0">
 <div class="co"><i class="ti ti-info-circle"></i><span>Enter the <strong>end-user's</strong> company info — not your own.</span></div>
 <div class="fgrid">
-<div class="fd"><label>Company name <span class="rq">*</span></label><input type="text" placeholder="Acme Corp" id="f-company"></div>
-<div class="fd"><label>Website</label><input type="url" placeholder="https://acme.com" id="f-website"></div>
-<div class="fd"><label>Industry <span class="rq">*</span></label><select id="f-industry"><option value="" disabled selected>Select industry</option><option>Education (K-12)</option><option>Education (Higher Ed)</option><option>Healthcare</option><option>Manufacturing</option><option>Retail</option><option>Commercial real estate</option><option>Government</option><option>Cannabis</option><option>Hospitality</option><option>Other</option></select></div>
+<div class="fd" data-v="required"><label>Company name <span class="rq">*</span></label><input type="text" placeholder="Acme Corp" id="f-company"><span class="err-msg">Company name is required</span></div>
+<div class="fd"><label>Website</label><input type="url" placeholder="https://acme.com" id="f-website"><span class="err-msg">Enter a valid URL</span></div>
+<div class="fd" data-v="required"><label>Industry <span class="rq">*</span></label><select id="f-industry"><option value="" disabled selected>Select industry</option><option>Education (K-12)</option><option>Education (Higher Ed)</option><option>Healthcare</option><option>Manufacturing</option><option>Retail</option><option>Commercial real estate</option><option>Government</option><option>Cannabis</option><option>Hospitality</option><option>Other</option></select><span class="err-msg">Industry is required</span></div>
 <div class="fd"><label>Company size</label><select><option value="" disabled selected>Select range</option><option>1 – 50</option><option>51 – 200</option><option>201 – 1,000</option><option>1,001 – 5,000</option><option>5,000+</option></select></div>
 <div class="fd ffull"><label>Government-owned or operated?</label><div class="rg" id="gov-tog"><label class="rp" onclick="selRad(this,'gov-tog')"><input type="radio" name="gov" value="yes"> Yes</label><label class="rp sel" onclick="selRad(this,'gov-tog')"><input type="radio" name="gov" value="no" checked> No</label></div></div>
 <div class="cond" id="gov-fields">
@@ -268,7 +296,7 @@ Sacramento, CA 95811"></textarea>
 <div class="secl ffull" style="margin-top:16px">Location</div>
 <div class="fd"><label>Country <span class="rq">*</span></label><select id="f-country" onchange="updateRegions()"><option selected>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option><option>Other</option></select></div>
 <div class="fd"><label>State / Province</label><select id="f-state"><option value="" disabled selected>Select state</option><option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option><option>District of Columbia</option><option>Puerto Rico</option><option>Guam</option><option>U.S. Virgin Islands</option></select></div>
-<div class="fd"><label>City</label><input type="text" placeholder="Sacramento" id="f-city"></div>
+<div class="fd addr-wrap"><label>City</label><input type="text" placeholder="Start typing a city..." id="f-city" autocomplete="off" oninput="addrSearch(this.value)"><div class="addr-dropdown" id="addr-dd"></div></div>
 <div class="fd"><label>Zip code</label><input type="text" placeholder="95811" id="f-zip"></div>
 </div>
 </div>
@@ -277,9 +305,9 @@ Sacramento, CA 95811"></textarea>
 <div class="fs" data-step="1">
 <div class="co"><i class="ti ti-user"></i><span>Enter the <strong>end-user contact</strong> — the person you're working with on this deal.</span></div>
 <div class="fgrid">
-<div class="fd"><label>First name <span class="rq">*</span></label><input type="text" placeholder="Jane" id="f-fname"></div>
-<div class="fd"><label>Last name <span class="rq">*</span></label><input type="text" placeholder="Smith" id="f-lname"></div>
-<div class="fd"><label>Email <span class="rq">*</span></label><input type="email" placeholder="jane@acme.com" id="f-email"></div>
+<div class="fd" data-v="required"><label>First name <span class="rq">*</span></label><input type="text" placeholder="Jane" id="f-fname"><span class="err-msg">First name is required</span></div>
+<div class="fd" data-v="required"><label>Last name <span class="rq">*</span></label><input type="text" placeholder="Smith" id="f-lname"><span class="err-msg">Last name is required</span></div>
+<div class="fd" data-v="email"><label>Email <span class="rq">*</span></label><input type="email" placeholder="jane@acme.com" id="f-email"><span class="err-msg">Enter a valid email address</span></div>
 <div class="fd"><label>Phone</label><input type="tel" placeholder="+1 (555) 000-0000" id="f-phone"></div>
 <div class="fd ffull"><label>Job title</label><input type="text" placeholder="Director of Security" id="f-title"></div>
 </div>
@@ -297,8 +325,8 @@ Sacramento, CA 95811"></textarea>
 <label class="cp" onclick="togChk(event,this)"><input type="checkbox"><i class="ti ti-check ck"></i> Intercoms</label>
 <label class="cp" onclick="togChk(event,this)"><input type="checkbox"><i class="ti ti-check ck"></i> Networking</label>
 </div></div>
-<div class="fd"><label>Estimated devices <span class="rq">*</span></label><input type="number" placeholder="25" min="1"></div>
-<div class="fd"><label>Timeline <span class="rq">*</span></label><select><option value="" disabled selected>When?</option><option>Immediately</option><option>1 – 3 months</option><option>3 – 6 months</option><option>6 – 12 months</option><option>12+ months</option></select></div>
+<div class="fd" data-v="required"><label>Estimated devices <span class="rq">*</span></label><input type="number" placeholder="25" min="1" id="f-devices"><span class="err-msg">Device count is required</span></div>
+<div class="fd" data-v="required"><label>Timeline <span class="rq">*</span></label><select id="f-timeline"><option value="" disabled selected>When?</option><option>Immediately</option><option>1 – 3 months</option><option>3 – 6 months</option><option>6 – 12 months</option><option>12+ months</option></select></div>
 <div class="fd ffull"><label>Part of an RFP?</label><div class="rg" id="rfp-tog"><label class="rp" onclick="selRad(this,'rfp-tog')"><input type="radio" name="rfp" value="yes"> Yes</label><label class="rp sel" onclick="selRad(this,'rfp-tog')"><input type="radio" name="rfp" value="no" checked> No</label></div></div>
 <div class="fd ffull"><label>Comfortable with Rhombus joining end-user demo?</label><div class="rg" id="demo-tog"><label class="rp sel" onclick="selRad(this,'demo-tog')"><input type="radio" name="demo" value="yes" checked> Yes</label><label class="rp" onclick="selRad(this,'demo-tog')"><input type="radio" name="demo" value="no"> No</label></div></div>
 <div class="fd ffull"><label>Additional notes</label><textarea placeholder="2-3 sentences about the opportunity (optional)"></textarea></div>
@@ -319,6 +347,8 @@ Sacramento, CA 95811"></textarea>
 
 <script>
 let cur=0,imported=false,importSource='';
+var DRAFT_KEY='rhombus_deal_draft';
+var addrTimer=null;
 
 var regionData={
 'United States':['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming','District of Columbia','Puerto Rico','Guam','U.S. Virgin Islands'],
@@ -337,22 +367,21 @@ var regions=regionData[country];
 if(regions){
 sel.innerHTML='<option value="" disabled selected>Select '+label.textContent.toLowerCase()+'</option>';
 regions.forEach(function(r){var o=document.createElement('option');o.textContent=r;o.value=r;sel.appendChild(o)});
-sel.style.display='';
 }else{
 sel.innerHTML='<option value="" disabled selected>Select region</option>';
-sel.style.display='';
 }
 sel.classList.remove('pre');
+saveDraft();
 }
 
 function showView(id){
-document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active')});
 document.getElementById(id).classList.add('active');
 }
 
 function swTab(el){
-document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
-document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('.stab').forEach(function(t){t.classList.remove('active')});
+document.querySelectorAll('.tc').forEach(function(t){t.classList.remove('active')});
 el.classList.add('active');
 document.querySelector('.tc[data-tab="'+el.dataset.tab+'"]').classList.add('active');
 }
@@ -404,10 +433,18 @@ document.getElementById('btn-next').innerHTML='Continue <i class="ti ti-arrow-ri
 document.getElementById('btn-next').classList.remove('sub');
 }
 if(imported)prefill();
+saveDraft();
 }
 
 function clickStep(n){if(n<=cur)goStep(n)}
-function navNext(){if(cur<2)goStep(cur+1)}
+
+function navNext(){
+if(cur<2){
+if(!validateStep(cur))return;
+goStep(cur+1);
+}
+}
+
 function navBack(){
 if(cur===0&&imported){showView('v-preview');return}
 if(cur===0&&!imported){showView('v-import');return}
@@ -421,6 +458,7 @@ el.querySelector('input').checked=true;
 if(gid==='gov-tog'){
 document.getElementById('gov-fields').classList.toggle('vis',el.querySelector('input').value==='yes');
 }
+saveDraft();
 }
 
 function togChk(e,el){
@@ -428,8 +466,173 @@ e.preventDefault();
 el.classList.toggle('sel');
 var cb=el.querySelector('input');
 cb.checked=!cb.checked;
+saveDraft();
 }
 
+// ── VALIDATION ──
+var stepFields={
+0:['f-company','f-industry'],
+1:['f-fname','f-lname','f-email'],
+2:['f-devices','f-timeline']
+};
+
+function validateField(el){
+var fd=el.closest('.fd');
+if(!fd)return true;
+var vtype=fd.getAttribute('data-v');
+var val=(el.value||'').trim();
+var ok=true;
+
+if(vtype==='required'&&!val)ok=false;
+if(vtype==='email'){
+if(!val)ok=false;
+else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))ok=false;
+}
+if(el.tagName==='SELECT'&&vtype==='required'&&(el.selectedIndex===0&&el.options[0].disabled))ok=false;
+
+fd.classList.remove('has-error','valid');
+if(!ok)fd.classList.add('has-error');
+else if(val)fd.classList.add('valid');
+return ok;
+}
+
+function validateStep(step){
+var ids=stepFields[step]||[];
+var allOk=true;
+ids.forEach(function(id){
+var el=document.getElementById(id);
+if(el&&!validateField(el))allOk=false;
+});
+if(step===2){
+var anyProduct=document.querySelector('.cp.sel');
+var prodContainer=document.querySelector('.cg').closest('.fd');
+if(!anyProduct){
+allOk=false;
+if(prodContainer){prodContainer.classList.add('has-error');
+var em=prodContainer.querySelector('.err-msg');
+if(!em){em=document.createElement('span');em.className='err-msg';em.textContent='Select at least one product';prodContainer.appendChild(em)}
+em.style.display='block';
+}
+}else if(prodContainer){prodContainer.classList.remove('has-error');var em2=prodContainer.querySelector('.err-msg');if(em2)em2.style.display='none';}
+}
+return allOk;
+}
+
+document.addEventListener('input',function(e){
+var fd=e.target.closest('.fd[data-v]');
+if(fd&&fd.classList.contains('has-error'))validateField(e.target);
+saveDraft();
+});
+document.addEventListener('change',function(e){
+var fd=e.target.closest('.fd[data-v]');
+if(fd)validateField(e.target);
+saveDraft();
+});
+
+// ── AUTOSAVE ──
+var SAVE_FIELDS=['f-company','f-website','f-industry','f-country','f-state','f-city','f-zip','f-fname','f-lname','f-email','f-phone','f-title','f-devices','f-timeline'];
+
+function saveDraft(){
+var data={step:cur,ts:Date.now()};
+SAVE_FIELDS.forEach(function(id){
+var el=document.getElementById(id);
+if(el)data[id]=el.value;
+});
+var prods=[];
+document.querySelectorAll('.cp.sel').forEach(function(p){prods.push(p.textContent.trim())});
+data.products=prods;
+try{localStorage.setItem(DRAFT_KEY,JSON.stringify(data))}catch(e){}
+}
+
+function restoreDraft(){
+try{
+var raw=localStorage.getItem(DRAFT_KEY);
+if(!raw)return;
+var data=JSON.parse(raw);
+SAVE_FIELDS.forEach(function(id){
+var el=document.getElementById(id);
+if(el&&data[id]){
+if(id==='f-country'){el.value=data[id];updateRegions()}
+else if(id==='f-state'){setTimeout(function(){el.value=data[id]},50)}
+else el.value=data[id];
+}
+});
+if(data.products&&data.products.length){
+document.querySelectorAll('.cp').forEach(function(p){
+if(data.products.indexOf(p.textContent.trim())!==-1)p.classList.add('sel');
+});
+}
+if(typeof data.step==='number')goStep(data.step);
+document.getElementById('draft-banner').classList.remove('show');
+}catch(e){}
+}
+
+function clearDraft(){
+try{localStorage.removeItem(DRAFT_KEY)}catch(e){}
+document.getElementById('draft-banner').classList.remove('show');
+}
+
+function checkDraft(){
+try{
+var raw=localStorage.getItem(DRAFT_KEY);
+if(!raw)return;
+var data=JSON.parse(raw);
+var hasData=SAVE_FIELDS.some(function(id){return data[id]});
+if(hasData){
+document.getElementById('draft-banner').classList.add('show');
+}
+}catch(e){}
+}
+
+// ── ADDRESS AUTOCOMPLETE (Nominatim/OpenStreetMap — free, no key) ──
+function addrSearch(q){
+q=q.trim();
+var dd=document.getElementById('addr-dd');
+if(q.length<3){dd.classList.remove('show');return}
+clearTimeout(addrTimer);
+addrTimer=setTimeout(function(){
+var country=document.getElementById('f-country').value;
+var cc={'United States':'us','Canada':'ca','United Kingdom':'gb','Australia':'au'}[country]||'';
+var url='https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q='+encodeURIComponent(q);
+if(cc)url+='&countrycodes='+cc;
+fetch(url,{headers:{'Accept-Language':'en'}})
+.then(function(r){return r.json()})
+.then(function(results){
+dd.innerHTML='';
+if(!results.length){dd.classList.remove('show');return}
+results.forEach(function(r){
+var addr=r.address||{};
+var city=addr.city||addr.town||addr.village||addr.hamlet||q;
+var state=addr.state||'';
+var zip=addr.postcode||'';
+var div=document.createElement('div');
+div.className='addr-item';
+div.innerHTML='<i class="ti ti-map-pin" aria-hidden="true"></i><div><div>'+city+(state?', '+state:'')+'</div>'+(zip?'<div class="addr-sub">'+zip+'</div>':'')+'</div>';
+div.onclick=function(){
+document.getElementById('f-city').value=city;
+if(state){
+var sel=document.getElementById('f-state');
+for(var i=0;i<sel.options.length;i++){
+if(sel.options[i].value===state||sel.options[i].text===state){sel.selectedIndex=i;break}
+}
+}
+if(zip)document.getElementById('f-zip').value=zip;
+dd.classList.remove('show');
+saveDraft();
+};
+dd.appendChild(div);
+});
+dd.classList.add('show');
+}).catch(function(){dd.classList.remove('show')});
+},300);
+}
+
+document.addEventListener('click',function(e){
+if(!e.target.closest('.addr-wrap'))document.getElementById('addr-dd').classList.remove('show');
+});
+
+// ── INIT ──
+checkDraft();
 </script>
 <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 </body>
