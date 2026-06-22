@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rhombus Deal Registration — Redesign Mockup</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f0;min-height:100vh;padding:1.5rem;color:#1a1a1a}
+:root{--blue:#378ADD;--blue-bg:#E6F1FB;--blue-dk:#185FA5;--blue-tx:#0C447C;--green:#1D9E75;--green-bg:#E1F5EE;--green-dk:#0F6E56;--green-tx:#085041;--amber-bg:#FAEEDA;--amber-tx:#633806;--red-tx:#A32D2D;--border:#e0e0d8;--border-h:#c0c0b8;--bg:#ffffff;--bg2:#f5f5f0;--bg3:#eeeee8;--tx1:#1a1a1a;--tx2:#6b6b65;--tx3:#9b9b95;--info-bg:#E6F1FB;--info-tx:#0C447C;--radius:8px;--radius-lg:12px}
+@media(prefers-color-scheme:dark){
+:root{--border:#3a3a3a;--border-h:#555;--bg:#1e1e1e;--bg2:#2a2a2a;--bg3:#333;--tx1:#e8e8e8;--tx2:#a0a0a0;--tx3:#707070;--info-bg:#1a2a3a;--info-tx:#85B7EB;--blue-bg:#1a2a3a;--blue-tx:#85B7EB;--green-bg:#1a2e25;--green-tx:#5DCAA5;--amber-bg:#2a2210;--amber-tx:#FAC775}
+body{background:#1a1a1a;color:#e8e8e8}
+}
+
+.shell{max-width:780px;margin:0 auto}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg);border-radius:var(--radius-lg) var(--radius-lg) 0 0;border-bottom:0.5px solid var(--border)}
+.logo{font-weight:600;font-size:15px;color:var(--tx1);display:flex;align-items:center;gap:8px}
+.logo i{font-size:20px;color:var(--blue)}
+.nav-links{display:flex;gap:20px;font-size:13px;color:var(--tx2)}
+.nav-links a{color:var(--tx2);text-decoration:none;cursor:pointer}
+.nav-links a:hover{color:var(--tx1)}
+.nav-links a.active{font-weight:600;color:var(--tx1)}
+
+.fc{background:var(--bg);border-radius:0 0 var(--radius-lg) var(--radius-lg);padding:2rem 2.5rem}
+.ph{margin-bottom:1.5rem}
+.ph h1{font-size:22px;font-weight:600;margin-bottom:4px}
+.ph p{font-size:14px;color:var(--tx2);line-height:1.5}
+
+.stabs{display:flex;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:16px}
+.stab{padding:8px 16px;font-size:13px;font-weight:500;color:var(--tx2);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;display:flex;align-items:center;gap:6px;transition:all .15s}
+.stab:hover{color:var(--tx1)}
+.stab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.stab i{font-size:16px}
+
+.tc{display:none}.tc.active{display:block;animation:fi .2s ease}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.uz{border:1.5px dashed var(--border-h);border-radius:var(--radius-lg);padding:2rem;text-align:center;cursor:pointer;transition:all .2s}
+.uz:hover{border-color:var(--blue);background:rgba(55,138,221,.04)}
+.uz i.ui{font-size:32px;color:var(--tx3);display:block;margin-bottom:8px}
+.uz .ut{font-size:14px;font-weight:600;color:var(--tx1);margin-bottom:4px}
+.uz .us{font-size:12px;color:var(--tx3)}
+.uzf{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.fb{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--bg2);color:var(--tx2)}
+
+.pa{width:100%;min-height:100px;padding:12px;font-size:13px;font-family:'SF Mono',Monaco,Consolas,monospace;line-height:1.6;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--tx1);resize:vertical}
+.pa:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(55,138,221,.12)}
+.pht{font-size:12px;color:var(--tx3);margin-top:6px;display:flex;align-items:center;gap:4px}
+
+.rl{display:flex;flex-direction:column;gap:8px}
+.ri{display:flex;align-items:center;gap:12px;padding:10px 14px;border:0.5px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .15s}
+.ri:hover{border-color:var(--border-h);background:var(--bg2)}
+.rav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
+.rin{flex:1;min-width:0}
+.rn{font-size:14px;font-weight:500;color:var(--tx1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rm{font-size:12px;color:var(--tx3)}
+.rac{font-size:12px;color:var(--blue);white-space:nowrap;display:flex;align-items:center;gap:4px}
+
+
+.dor{display:flex;align-items:center;gap:12px;margin:1.5rem 0;font-size:12px;color:var(--tx3)}
+.dor::before,.dor::after{content:'';flex:1;height:0.5px;background:var(--border)}
+.mns{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg);font-size:14px;color:var(--tx2);cursor:pointer;width:100%;transition:all .15s}
+.mns:hover{border-color:var(--border-h);color:var(--tx1)}
+
+/* Preview card */
+.pc{border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.5rem}
+.pch{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--bg2);border-bottom:0.5px solid var(--border)}
+.pchl{display:flex;align-items:center;gap:10px}
+.pci{color:var(--green);font-size:20px}
+.pct{font-size:14px;font-weight:600}
+.pcs{font-size:12px;color:var(--tx3)}
+.pce{font-size:13px;color:var(--blue);cursor:pointer;display:flex;align-items:center;gap:4px;background:none;border:none}
+.pcb{padding:14px 16px}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px}
+.pf label{font-size:11px;color:var(--tx3);display:block}
+.pf span{font-size:13px;color:var(--tx1)}
+
+/* Stepper */
+.stepper{display:flex;margin-bottom:2rem}
+.si{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;cursor:pointer}
+.sc{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:white;background:var(--border);position:relative;z-index:2;transition:all .3s}
+.sc i{font-size:16px}
+.slab{font-size:12px;color:var(--tx3);margin-top:6px;transition:all .3s}
+.si.active .sc{background:var(--blue)}
+.si.active .slab{color:var(--tx1);font-weight:600}
+.si.done .sc{background:var(--green)}
+.si.done .slab{color:var(--tx2)}
+.scon{position:absolute;top:16px;left:calc(50% + 20px);right:calc(-50% + 20px);height:2px;background:var(--border);z-index:1}
+.si.done .scon{background:var(--green)}
+.si:last-child .scon{display:none}
+
+.fs{display:none}.fs.active{display:block;animation:fi .25s ease}
+
+.co{background:var(--info-bg);border-radius:var(--radius);padding:12px 16px;font-size:13px;color:var(--info-tx);margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.co i{font-size:18px;margin-top:1px;flex-shrink:0}
+
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ffull{grid-column:1/-1}
+.fd{display:flex;flex-direction:column;gap:4px}
+.fd label{font-size:13px;color:var(--tx2)}
+.fd label .rq{color:var(--red-tx)}
+.fd input,.fd select{height:40px;padding:0 12px;font-size:14px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--tx1);width:100%;transition:border-color .15s}
+.fd input:focus,.fd select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(55,138,221,.12)}
+.fd textarea{padding:10px 12px;font-size:14px;font-family:inherit;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--tx1);width:100%;min-height:80px;resize:vertical}
+.fd textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(55,138,221,.12)}
+.fd input.pre,.fd select.pre{background:var(--bg2);border-style:dashed}
+
+.rg{display:flex;gap:12px;margin-top:2px}
+.rp{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:0.5px solid var(--border);font-size:13px;color:var(--tx2);cursor:pointer;transition:all .15s;background:var(--bg)}
+.rp:hover{border-color:var(--border-h)}
+.rp.sel{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+.rp input{display:none}
+
+.cg{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.cp{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;border:0.5px solid var(--border);font-size:13px;color:var(--tx2);cursor:pointer;transition:all .15s;background:var(--bg)}
+.cp:hover{border-color:var(--border-h)}
+.cp.sel{border-color:var(--green);color:var(--green-tx);background:var(--green-bg)}
+.cp input{display:none}
+.cp i.ck{font-size:14px;display:none}
+.cp.sel i.ck{display:inline}
+
+.cond{display:none}
+.cond.vis{display:grid;grid-template-columns:1fr 1fr;gap:16px;animation:fi .25s ease}
+
+.secl{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--tx3);font-weight:600;margin-bottom:12px;margin-top:8px}
+
+.br{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:0.5px solid var(--border)}
+.bbk{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--tx2);background:none;border:none;cursor:pointer;padding:8px 0}
+.bbk:hover{color:var(--tx1)}
+.bbk i{font-size:18px}
+.bn{display:flex;align-items:center;gap:6px;padding:10px 24px;border-radius:var(--radius);background:var(--blue);color:white;border:none;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s}
+.bn:hover{background:var(--blue-dk)}
+.bn.sub{background:var(--green)}
+.bn.sub:hover{background:var(--green-dk)}
+.bn i{font-size:16px}
+
+.view{display:none}.view.active{display:block}
+
+.watermark{text-align:center;padding:1.5rem 0 0.5rem;font-size:11px;color:var(--tx3)}
+
+@media(max-width:600px){
+body{padding:0.75rem}
+.fc{padding:1.25rem 1rem}
+.nav-links{display:none}
+.fgrid,.cond.vis,.pg{grid-template-columns:1fr}
+.slab{font-size:10px}.sc{width:28px;height:28px;font-size:12px}
+.ph h1{font-size:18px}
+.stab{padding:8px 10px;font-size:12px}
+.cg{gap:6px}
+}
+</style>
+
+<div class="shell">
+<div class="nav">
+<div class="logo"><i class="ti ti-shield-check"></i> Rhombus Partners</div>
+<div class="nav-links">
+<a href="#">Dashboard</a>
+<a href="#">Pricing</a>
+<a href="#" class="active">Register deal</a>
+<a href="#">Assets</a>
+</div>
+</div>
+
+<div class="fc">
+
+<!-- VIEW 1: Import -->
+<div class="view active" id="v-import">
+<div class="ph">
+<h1>Register a new opportunity</h1>
+<p>Import a contact to auto-fill, or start from scratch.</p>
+</div>
+
+<div class="stabs">
+<button class="stab active" data-tab="upload" onclick="swTab(this)"><i class="ti ti-upload"></i> Upload</button>
+<button class="stab" data-tab="paste" onclick="swTab(this)"><i class="ti ti-clipboard"></i> Paste</button>
+<button class="stab" data-tab="recent" onclick="swTab(this)"><i class="ti ti-clock"></i> Recent</button>
+</div>
+
+<div class="tc active" data-tab="upload">
+<div class="uz" onclick="doImport('upload')">
+<i class="ti ti-file-upload ui"></i>
+<div class="ut">Drop a contact file or click to browse</div>
+<div class="us">Auto-fills company, contact, and location fields</div>
+<div class="uzf"><span class="fb">.csv</span><span class="fb">.vcf</span><span class="fb">.xlsx</span></div>
+</div>
+</div>
+
+<div class="tc" data-tab="paste">
+<textarea class="pa" placeholder="Paste contact info here — any format works.
+
+Example:
+Jane Smith, Director of Security
+Acme Corp
+jane@acme.com | (555) 123-4567
+Sacramento, CA 95811"></textarea>
+<div class="pht"><i class="ti ti-sparkles"></i> Parses names, emails, phones, and addresses automatically</div>
+<button style="margin-top:12px;padding:8px 20px;border-radius:var(--radius);background:var(--blue);color:white;border:none;font-size:13px;font-weight:500;cursor:pointer" onclick="doImport('paste')">Parse and fill <i class="ti ti-arrow-right" style="font-size:14px;margin-left:4px"></i></button>
+</div>
+
+
+<div class="tc" data-tab="recent">
+<div class="rl">
+<div class="ri" onclick="doImport('recent')"><div class="rav" style="background:var(--blue-bg);color:var(--blue-tx)">AC</div><div class="rin"><div class="rn">Acme Corp</div><div class="rm">Jane Smith · 3 days ago</div></div><div class="rac"><i class="ti ti-refresh"></i> Reuse</div></div>
+<div class="ri" onclick="doImport('recent')"><div class="rav" style="background:var(--green-bg);color:var(--green-tx)">WS</div><div class="rin"><div class="rn">Westside School District</div><div class="rm">Tom Garcia · 1 week ago</div></div><div class="rac"><i class="ti ti-refresh"></i> Reuse</div></div>
+<div class="ri" onclick="doImport('recent')"><div class="rav" style="background:var(--amber-bg);color:var(--amber-tx)">PH</div><div class="rin"><div class="rn">Parkview Healthcare</div><div class="rm">Lisa Chen · 2 weeks ago</div></div><div class="rac"><i class="ti ti-refresh"></i> Reuse</div></div>
+</div>
+</div>
+
+<div class="dor">or</div>
+<button class="mns" onclick="goManual()"><i class="ti ti-edit"></i> Fill out manually</button>
+</div>
+
+<!-- VIEW 2: Preview -->
+<div class="view" id="v-preview">
+<div class="ph">
+<h1>Register a new opportunity</h1>
+<p>Contact imported — review and continue to opportunity details.</p>
+</div>
+<div class="pc">
+<div class="pch">
+<div class="pchl"><i class="ti ti-circle-check pci"></i><div><div class="pct" id="prev-title">Contact imported</div><div class="pcs" id="prev-sub">12 fields auto-filled</div></div></div>
+<button class="pce" onclick="showView('v-import')"><i class="ti ti-arrow-left"></i> Change</button>
+</div>
+<div class="pcb">
+<div class="pg">
+<div class="pf"><label>Company</label><span>Acme Corp</span></div>
+<div class="pf"><label>Website</label><span>acme.com</span></div>
+<div class="pf"><label>Contact</label><span>Jane Smith</span></div>
+<div class="pf"><label>Email</label><span>jane@acme.com</span></div>
+<div class="pf"><label>Phone</label><span>(555) 123-4567</span></div>
+<div class="pf"><label>Title</label><span>Director of Security</span></div>
+<div class="pf"><label>Location</label><span>Sacramento, CA 95811</span></div>
+<div class="pf"><label>Industry</label><span>Commercial real estate</span></div>
+</div>
+</div>
+</div>
+<button class="bn" onclick="showView('v-form');goStep(2)" style="width:100%"><i class="ti ti-arrow-right"></i> Continue to opportunity details</button>
+</div>
+
+<!-- VIEW 3: Step form -->
+<div class="view" id="v-form">
+<div class="ph">
+<h1>Register a new opportunity</h1>
+<p>Fields marked <span style="color:var(--red-tx)">*</span> are required.</p>
+</div>
+
+<div class="stepper">
+<div class="si active" data-step="0" onclick="clickStep(0)"><div class="sc">1</div><div class="slab">Customer</div><div class="scon"></div></div>
+<div class="si" data-step="1" onclick="clickStep(1)"><div class="sc">2</div><div class="slab">Contact</div><div class="scon"></div></div>
+<div class="si" data-step="2" onclick="clickStep(2)"><div class="sc">3</div><div class="slab">Opportunity</div><div class="scon"></div></div>
+</div>
+
+<!-- Step 1 -->
+<div class="fs active" data-step="0">
+<div class="co"><i class="ti ti-info-circle"></i><span>Enter the <strong>end-user's</strong> company info — not your own.</span></div>
+<div class="fgrid">
+<div class="fd"><label>Company name <span class="rq">*</span></label><input type="text" placeholder="Acme Corp" id="f-company"></div>
+<div class="fd"><label>Website</label><input type="url" placeholder="https://acme.com" id="f-website"></div>
+<div class="fd"><label>Industry <span class="rq">*</span></label><select id="f-industry"><option value="" disabled selected>Select industry</option><option>Education (K-12)</option><option>Education (Higher Ed)</option><option>Healthcare</option><option>Manufacturing</option><option>Retail</option><option>Commercial real estate</option><option>Government</option><option>Cannabis</option><option>Hospitality</option><option>Other</option></select></div>
+<div class="fd"><label>Company size</label><select><option value="" disabled selected>Select range</option><option>1 – 50</option><option>51 – 200</option><option>201 – 1,000</option><option>1,001 – 5,000</option><option>5,000+</option></select></div>
+<div class="fd ffull"><label>Government-owned or operated?</label><div class="rg" id="gov-tog"><label class="rp" onclick="selRad(this,'gov-tog')"><input type="radio" name="gov" value="yes"> Yes</label><label class="rp sel" onclick="selRad(this,'gov-tog')"><input type="radio" name="gov" value="no" checked> No</label></div></div>
+<div class="cond" id="gov-fields">
+<div class="fd"><label>Government entity type</label><select><option value="" disabled selected>Select type</option><option>Federal</option><option>State</option><option>County</option><option>City / Municipal</option><option>Tribal</option></select></div>
+<div class="fd"><label>Population count</label><select><option value="" disabled selected>Select range</option><option>Under 10,000</option><option>10,000 – 50,000</option><option>50,000 – 250,000</option><option>250,000+</option></select></div>
+</div>
+<div class="secl ffull" style="margin-top:16px">Location</div>
+<div class="fd"><label>Country <span class="rq">*</span></label><select><option selected>United States</option><option>Canada</option><option>United Kingdom</option><option>Other</option></select></div>
+<div class="fd"><label>State / Province</label><select id="f-state"><option value="" disabled selected>Select state</option><option>California</option><option>Texas</option><option>New York</option><option>Florida</option></select></div>
+<div class="fd"><label>City</label><input type="text" placeholder="Sacramento" id="f-city"></div>
+<div class="fd"><label>Zip code</label><input type="text" placeholder="95811" id="f-zip"></div>
+</div>
+</div>
+
+<!-- Step 2 -->
+<div class="fs" data-step="1">
+<div class="co"><i class="ti ti-user"></i><span>Enter the <strong>end-user contact</strong> — the person you're working with on this deal.</span></div>
+<div class="fgrid">
+<div class="fd"><label>First name <span class="rq">*</span></label><input type="text" placeholder="Jane" id="f-fname"></div>
+<div class="fd"><label>Last name <span class="rq">*</span></label><input type="text" placeholder="Smith" id="f-lname"></div>
+<div class="fd"><label>Email <span class="rq">*</span></label><input type="email" placeholder="jane@acme.com" id="f-email"></div>
+<div class="fd"><label>Phone</label><input type="tel" placeholder="+1 (555) 000-0000" id="f-phone"></div>
+<div class="fd ffull"><label>Job title</label><input type="text" placeholder="Director of Security" id="f-title"></div>
+</div>
+</div>
+
+<!-- Step 3 -->
+<div class="fs" data-step="2">
+<div class="fgrid">
+<div class="fd ffull"><label>Products <span class="rq">*</span></label>
+<div class="cg">
+<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Cameras</label>
+<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Sensors</label>
+<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Access control</label>
+<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Alarm monitoring</label>
+<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Intercoms</label>
+<label class="cp" onclick="togChk(this)"><input type="checkbox"><i class="ti ti-check ck"></i> Networking</label>
+</div></div>
+<div class="fd"><label>Estimated devices <span class="rq">*</span></label><input type="number" placeholder="25" min="1"></div>
+<div class="fd"><label>Timeline <span class="rq">*</span></label><select><option value="" disabled selected>When?</option><option>Immediately</option><option>1 – 3 months</option><option>3 – 6 months</option><option>6 – 12 months</option><option>12+ months</option></select></div>
+<div class="fd ffull"><label>Part of an RFP?</label><div class="rg" id="rfp-tog"><label class="rp" onclick="selRad(this,'rfp-tog')"><input type="radio" name="rfp" value="yes"> Yes</label><label class="rp sel" onclick="selRad(this,'rfp-tog')"><input type="radio" name="rfp" value="no" checked> No</label></div></div>
+<div class="fd ffull"><label>Comfortable with Rhombus joining end-user demo?</label><div class="rg" id="demo-tog"><label class="rp sel" onclick="selRad(this,'demo-tog')"><input type="radio" name="demo" value="yes" checked> Yes</label><label class="rp" onclick="selRad(this,'demo-tog')"><input type="radio" name="demo" value="no"> No</label></div></div>
+<div class="fd ffull"><label>Additional notes</label><textarea placeholder="2-3 sentences about the opportunity (optional)"></textarea></div>
+</div>
+</div>
+
+<div class="br">
+<button class="bbk" id="btn-back" style="visibility:hidden" onclick="navBack()"><i class="ti ti-arrow-left"></i> Back</button>
+<button class="bn" id="btn-next" onclick="navNext()">Continue <i class="ti ti-arrow-right"></i></button>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="watermark">Rhombus Deal Registration — Redesign Mockup</div>
+</div>
+
+<script>
+let cur=0,imported=false,importSource='';
+
+function showView(id){
+document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+function swTab(el){
+document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
+el.classList.add('active');
+document.querySelector('.tc[data-tab="'+el.dataset.tab+'"]').classList.add('active');
+}
+
+function doImport(source){
+imported=true;
+importSource=source;
+var titles={upload:'File imported',paste:'Contact parsed',recent:'Contact reused'};
+var subs={upload:'12 fields auto-filled from file',paste:'8 fields parsed from text',recent:'12 fields reused from previous registration'};
+document.getElementById('prev-title').textContent=titles[source]||'Contact imported';
+document.getElementById('prev-sub').textContent=subs[source]||'12 fields auto-filled';
+showView('v-preview');
+}
+
+function goManual(){
+imported=false;
+showView('v-form');
+goStep(0);
+}
+
+function prefill(){
+var f={company:'Acme Corp',website:'acme.com',fname:'Jane',lname:'Smith',email:'jane@acme.com',phone:'(555) 123-4567',title:'Director of Security',city:'Sacramento',zip:'95811'};
+Object.keys(f).forEach(function(k){
+var el=document.getElementById('f-'+k);
+if(el){el.value=f[k];el.classList.add('pre')}
+});
+var ind=document.getElementById('f-industry');
+if(ind){ind.value='Commercial real estate';ind.classList.add('pre')}
+var st=document.getElementById('f-state');
+if(st){st.value='California';st.classList.add('pre')}
+}
+
+function goStep(n){
+if(n<0||n>2)return;
+cur=n;
+document.querySelectorAll('.fs').forEach(function(s,i){s.classList.toggle('active',i===n)});
+document.querySelectorAll('.si').forEach(function(s,i){
+s.classList.remove('active','done');
+if(i<n){s.classList.add('done');s.querySelector('.sc').innerHTML='<i class="ti ti-check"></i>'}
+else if(i===n){s.classList.add('active');s.querySelector('.sc').textContent=i+1}
+else{s.querySelector('.sc').textContent=i+1}
+});
+document.getElementById('btn-back').style.visibility=n===0?'hidden':'visible';
+if(n===2){
+document.getElementById('btn-next').innerHTML='Submit <i class="ti ti-check"></i>';
+document.getElementById('btn-next').classList.add('sub');
+}else{
+document.getElementById('btn-next').innerHTML='Continue <i class="ti ti-arrow-right"></i>';
+document.getElementById('btn-next').classList.remove('sub');
+}
+if(imported)prefill();
+}
+
+function clickStep(n){if(n<=cur)goStep(n)}
+function navNext(){if(cur<2)goStep(cur+1)}
+function navBack(){
+if(cur===0&&imported){showView('v-preview');return}
+if(cur===0&&!imported){showView('v-import');return}
+goStep(cur-1);
+}
+
+function selRad(el,gid){
+document.querySelectorAll('#'+gid+' .rp').forEach(function(p){p.classList.remove('sel')});
+el.classList.add('sel');
+el.querySelector('input').checked=true;
+if(gid==='gov-tog'){
+document.getElementById('gov-fields').classList.toggle('vis',el.querySelector('input').value==='yes');
+}
+}
+
+function togChk(el){
+el.classList.toggle('sel');
+var cb=el.querySelector('input');
+cb.checked=!cb.checked;
+}
+
+</script>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+</body>
+</html>
